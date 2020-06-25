@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { CardList } from "./card-list/card.list.component"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cards: []
+    };
+  }
+
+  componentDidMount() {
+    fetch(`https://api.magicthegathering.io/v1/cards`)
+      .then(response => response.json())
+      .then(cards => this.setState({cards: cards }))
+  }
+  
+
+  render() {
+    return (
+      <div className="App">
+        <input
+          type="search"
+          placeholder="search cards"
+          onChange={(e) => this.setState({ searchField: e.target.value })}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
